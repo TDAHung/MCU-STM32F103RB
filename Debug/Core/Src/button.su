@@ -1,0 +1,3 @@
+button.c:41:6:buttonReading	16	static
+button.c:66:5:isButtonPressed	16	static
+button.c:75:5:isButtonHold	16	static

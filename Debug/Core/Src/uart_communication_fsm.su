@@ -1,1 +1,1 @@
-uart_communication_fsm.c:21:6:uart_communiation_fsm	32	static
+../Core/Src/uart_communication_fsm.c:21:6:uart_communiation_fsm	32	static

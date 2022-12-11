@@ -20,10 +20,10 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "button.h"
-#include "fsm_button_processing.h"
-#include "fsm_trafficlight.h"
-#include "timer.h"
 #include "uart_communication_fsm.h"
+#include "timer.h"
+#include "fsm_trafficlight.h"
+#include "fsm_button_processing.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -115,29 +115,17 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim2);
   HAL_UART_Receive_IT(&huart2, &temp, 1);
   for(int i = 0 ; i < NUMS_OF_TIMER; i++){
-	  setTimer(i,i+1);
+	  setTimer(i,1);
   }
+  int time[3] = {5000,2000,3000};
   /* USER CODE END 2 */
 
   /* Infinite loop */
-  int time[3] = {5000,2000,3000};
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-//	  displayTraffic(time);
-// If only display traffic just uncomment line 128
-//    fsm_button_displayTraffic();
-// If show fsm with the button uncomment line 130
-// Do not uncomment both of them at one time
-
-//	  UART communication
-//	  if (buffer_flag == 1){
-//		  command_parser_fsm();
-//		  buffer_flag = 0;
-//	  }
-//	  uart_communiation_fsm();
-//	  UART communication
+	  fsm_button_displayTraffic();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

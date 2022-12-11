@@ -32,9 +32,11 @@ enum ChangeTimeStatus {
 enum StateButton statusBTN = INITBTN;
 enum ChangeTimeStatus changeTimeState = RED_CHANGE;
 enum ChangeTimeStatus manualDisplay = RED_CHANGE;
+enum StateLight State = RED;
 int trafficTime[3] = {9,3,6};
 int trafficRealTime[3];
 int indexOfLight = REDVERFLAG;
+int flag = 0;
 
 void incTime(int index){
 	trafficTime[index]++;
@@ -66,11 +68,22 @@ void fsm_button_displayTraffic(void){
 		}
 		break;
 	case MODE:
-		setTimer(BLINK,1);
+		setTimer(BLINK,10);
+
 		if(changeTimeState == CONFIRM){
-			blinkyLight(RED);
-			blinkyLight(YELLOW);
-			blinkyLight(GREEN);
+			if(timer_flag[BLINK]){
+				if(flag == 0){
+					blinkyLight(RED);
+					flag = 1;
+				}else if(flag == 1){
+					blinkyLight(YELLOW);
+					flag = 2;
+				}else {
+					blinkyLight(GREEN);
+					flag = 0;
+				}
+				setTimer(BLINK,15);
+			}
 
 			if(isButtonPressed(MODE_BTN)){
 				changeTimeState = RED_CHANGE;
@@ -78,18 +91,21 @@ void fsm_button_displayTraffic(void){
 			}
 
 		}else {
-		blinkyLight(changeTimeState);
+		blinkyLight(State);
 			if(isButtonPressed(MODE_BTN)){
 				switch(changeTimeState){
 					case RED_CHANGE:
+						State = YELLOW;
 						indexOfLight = YELLOWVERFLAG;
-						changeTimeState = YELLOW;
+						changeTimeState = YELLOW_CHANGE;
 						break;
 					case YELLOW_CHANGE:
+						State = GREEN;
 						indexOfLight = GREENVERFLAG;
-						changeTimeState = GREEN;
+						changeTimeState = GREEN_CHANGE;
 						break;
 					case GREEN_CHANGE:
+						State = RED;
 						indexOfLight = REDVERFLAG;
 						changeTimeState = CONFIRM;
 						break;
@@ -141,9 +157,13 @@ void fsm_button_displayTraffic(void){
 		}
 		break;
 	case PEDES:
-		//bat ben xanh cho nguoi di bo
-		//bat tieng cho nguoi di bo
-		//neu an lai nut pedes thi statusBTN = INITBTN;
+		turnOnPedes();
+		turnOnLight(GREEN,VER);
+		turnOnLight(GREEN,HOR);
+		if (isButtonPressed(PEDES_BTN)){
+			clearPedes();
+			statusBTN= INITBTN;
+		}
 		break;
 	}
 }

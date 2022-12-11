@@ -68,12 +68,15 @@ void clearTrafficLight(void){
 }
 
 void clearPedes(void){
-
+	HAL_GPIO_WritePin(LedPortPedes[0],LedPinPedes[0],0);
+	HAL_GPIO_WritePin(LedPortPedes[1],LedPinPedes[1],0);
+	HAL_GPIO_WritePin(SoundPort,SoundPin,0);
 }
 
 void turnOnPedes(void){
-	HAL_GPIO_WritePin(LedPortPedes[0],LedPinPedes[0],1);
-	HAL_GPIO_WritePin(LedPortPedes[1],LedPinPedes[1],0);
+	HAL_GPIO_WritePin(LedPortPedes[0],LedPinPedes[0],0);
+	HAL_GPIO_WritePin(LedPortPedes[1],LedPinPedes[1],1);
+	HAL_GPIO_WritePin(SoundPort,SoundPin,1);
 }
 
 void turnOnLight(enum StateLight currentState, enum flow direction){
@@ -103,12 +106,12 @@ void turnOnLight(enum StateLight currentState, enum flow direction){
 		case INIT: break;
 		case RED:
 			clearLight(VER);
-			HAL_GPIO_WritePin(LedPortVER[0],LedPinVER[0],0);
-			HAL_GPIO_WritePin(LedPortVER[1],LedPinVER[1],1);
+			HAL_GPIO_WritePin(LedPortVER[0],LedPinVER[0],1);
+			HAL_GPIO_WritePin(LedPortVER[1],LedPinVER[1],0);
 			break;
 		case YELLOW:
 			clearLight(VER);
-			HAL_GPIO_WritePin(LedPortVER[0],LedPinVER[0],0);
+			HAL_GPIO_WritePin(LedPortVER[0],LedPinVER[0],1);
 			HAL_GPIO_WritePin(LedPortVER[1],LedPinVER[1],1);
 			break;
 		case GREEN:
@@ -132,7 +135,7 @@ void blinkyLight(enum StateLight currentState){
 			turnOnLight(currentState,HOR);
 			blink = 1;
 		}
-		setTimer(BLINK,200);
+		setTimer(BLINK,500);
 	}
 }
 
@@ -141,32 +144,30 @@ void displayTrafficLight(enum flow direction, int * trafficTime){
 	case HOR:
 		switch(currentStateHOR){
 		case INIT:
-			setTimer(REDHORFLAG,trafficTime[REDHORFLAG - 3]);
-			setTimer(YELLOWHORFLAG,trafficTime[YELLOWHORFLAG - 3]);
-			setTimer(GREENHORFLAG, trafficTime[GREENHORFLAG - 3]);
 			clearTrafficLight();
 			currentStateHOR = RED;
 			break;
 		case RED:
-			if(timer_flag[REDHORFLAG]){
-				setTimer(REDHORFLAG,trafficTime[REDHORFLAG - 3]);
-				turnOnLight(RED,HOR);
+			turnOnLight(RED,HOR);
+			if(timer_flag[HOR]){
+				currentStateHOR = GREEN;
+				setTimer(HOR,trafficTime[GREENHORFLAG - 3]);
 			}
-			currentStateHOR = GREEN;
 			break;
 		case YELLOW:
-			if(timer_flag[YELLOWHORFLAG]){
-				setTimer(YELLOWHORFLAG,trafficTime[YELLOWHORFLAG - 3]);
-				turnOnLight(YELLOW,HOR);
+			turnOnLight(YELLOW,HOR);
+			if(timer_flag[HOR]){
+				currentStateHOR = RED;
+				setTimer(HOR,trafficTime[REDHORFLAG - 3]);
 			}
-			currentStateHOR = RED;
+
 			break;
 		case GREEN:
-			if(timer_flag[GREENHORFLAG]){
-				setTimer(GREENHORFLAG, trafficTime[GREENHORFLAG - 3]);
-				turnOnLight(GREEN,HOR);
+			turnOnLight(GREEN,HOR);
+			if(timer_flag[HOR]){
+				currentStateHOR = YELLOW;
+				setTimer(HOR, trafficTime[YELLOWHORFLAG - 3]);
 			}
-			currentStateHOR = YELLOW;
 			break;
 		}
 		break;
@@ -174,29 +175,28 @@ void displayTrafficLight(enum flow direction, int * trafficTime){
 		switch(currentStateVER){
 		case INIT:
 			clearTrafficLight();
-			setTimer(REDVERFLAG,trafficTime[REDVERFLAG]);
-			setTimer(GREENVERFLAG, trafficTime[GREENVERFLAG]);
-			setTimer(YELLOWVERFLAG,trafficTime[YELLOWVERFLAG]);
 			currentStateVER = GREEN;
 			break;
 		case RED:
-			if(timer_flag[REDVERFLAG]){
-				setTimer(REDVERFLAG,trafficTime[REDVERFLAG]);
-				turnOnLight(RED,VER);
+			turnOnLight(RED,VER);
+			if(timer_flag[VER]){
+				currentStateVER = GREEN;
+				setTimer(VER,trafficTime[GREENVERFLAG]);
 			}
-			currentStateVER = GREEN;
+
 			break;
 		case YELLOW:
-			if(timer_flag[YELLOWVERFLAG]){
-				setTimer(YELLOWVERFLAG,trafficTime[YELLOWVERFLAG]);
-				turnOnLight(YELLOW,VER);
+			turnOnLight(YELLOW,VER);
+			if(timer_flag[VER]){
+				currentStateVER = RED;
+				setTimer(VER,trafficTime[REDVERFLAG]);
+
 			}
-			currentStateVER = RED;
 			break;
 		case GREEN:
-			if(timer_flag[GREENVERFLAG]){
-				setTimer(GREENVERFLAG,trafficTime[GREENVERFLAG]);
-				turnOnLight(GREEN,VER);
+			turnOnLight(GREEN,VER);
+			if(timer_flag[VER]){
+				setTimer(VER,trafficTime[YELLOWVERFLAG]);
 				currentStateVER = YELLOW;
 			}
 			break;
@@ -207,5 +207,5 @@ void displayTrafficLight(enum flow direction, int * trafficTime){
 
 void displayTraffic(int * timeTraffic){
 	displayTrafficLight(VER, timeTraffic);
-	displayTrafficLight(HOR, timeTraffic);
+//	displayTrafficLight(HOR, timeTraffic);
 }

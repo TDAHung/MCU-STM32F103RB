@@ -31,6 +31,9 @@ enum StateLight{
 	GREEN
 };
 
+extern enum StateLight currentStateVER;
+extern enum StateLight currentStateHOR;
+
 void turnOnLight(enum StateLight, enum flow);
 void turnOnPedes(void);
 void clearPedes(void);

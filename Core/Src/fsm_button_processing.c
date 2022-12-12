@@ -15,6 +15,7 @@
 
 enum StateButton{
 	INITBTN,
+	NORMAL,
 	MODE,
 	INC,
 	DEC,
@@ -29,6 +30,8 @@ enum ChangeTimeStatus {
 	CONFIRM
 };
 
+enum StateLight currentStateVER = INIT;
+enum StateLight currentStateHOR = INIT;
 enum StateButton statusBTN = INITBTN;
 enum ChangeTimeStatus changeTimeState = RED_CHANGE;
 enum ChangeTimeStatus manualDisplay = RED_CHANGE;
@@ -39,9 +42,19 @@ int indexOfLight = REDVERFLAG;
 int flag = 0;
 
 void incTime(int index){
+	switch(index){
+		case RED_CHANGE: trafficTime[GREEN_CHANGE]++; break;
+		case YELLOW_CHANGE: trafficTime[RED_CHANGE]++; break;
+		case GREEN_CHANGE: trafficTime[RED_CHANGE]++; break;
+	}
 	trafficTime[index]++;
 }
 void decTime(int index){
+	switch(index){
+		case RED_CHANGE: trafficTime[GREEN_CHANGE]--; break;
+		case YELLOW_CHANGE: trafficTime[RED_CHANGE]--; break;
+		case GREEN_CHANGE: trafficTime[RED_CHANGE]--; break;
+	}
 	trafficTime[index]--;
 }
 
@@ -54,6 +67,11 @@ void translate(void){
 void fsm_button_displayTraffic(void){
 	switch(statusBTN){
 	case INITBTN:
+		currentStateVER = INIT;
+		currentStateHOR = INIT;
+		statusBTN = NORMAL;
+		break;
+	case NORMAL:
 		translate();
 		displayTraffic(trafficRealTime);
 
@@ -82,7 +100,7 @@ void fsm_button_displayTraffic(void){
 					blinkyLight(GREEN);
 					flag = 0;
 				}
-				setTimer(BLINK,15);
+				setTimer(BLINK,30);
 			}
 
 			if(isButtonPressed(MODE_BTN)){

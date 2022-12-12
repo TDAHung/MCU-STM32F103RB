@@ -114,9 +114,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
   HAL_UART_Receive_IT(&huart2, &temp, 1);
-  for(int i = 0 ; i < NUMS_OF_TIMER; i++){
-	  setTimer(i,1);
-  }
   int time[3] = {5000,2000,3000};
   /* USER CODE END 2 */
 
@@ -125,7 +122,19 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+//	  traffic
+//	  displayTraffic(time);
+//	  traffic
+//	  button + traffic
 	  fsm_button_displayTraffic();
+//	  button + traffic
+//	  UART
+//	  if (buffer_flag == 1){
+//		  command_parser_fsm();
+//		  buffer_flag = 0;
+//	  }
+//	  uart_communiation_fsm();
+//	  UART
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

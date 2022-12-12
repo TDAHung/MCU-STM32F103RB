@@ -41,11 +41,7 @@ uint16_t LedPinPedes[2] = {
 		D7_Pin
 };
 
-
-enum StateLight currentStateVER = INIT;
-enum StateLight currentStateHOR = INIT;
 unsigned char blink = 0;
-
 
 void clearLight(enum flow direction){
 	switch(direction){
@@ -145,6 +141,7 @@ void displayTrafficLight(enum flow direction, int * trafficTime){
 		switch(currentStateHOR){
 		case INIT:
 			clearTrafficLight();
+			setTimer(HOR,trafficTime[REDHORFLAG - 3]);
 			currentStateHOR = RED;
 			break;
 		case RED:
@@ -175,6 +172,7 @@ void displayTrafficLight(enum flow direction, int * trafficTime){
 		switch(currentStateVER){
 		case INIT:
 			clearTrafficLight();
+			setTimer(VER,trafficTime[GREENVERFLAG]);
 			currentStateVER = GREEN;
 			break;
 		case RED:
@@ -207,5 +205,5 @@ void displayTrafficLight(enum flow direction, int * trafficTime){
 
 void displayTraffic(int * timeTraffic){
 	displayTrafficLight(VER, timeTraffic);
-//	displayTrafficLight(HOR, timeTraffic);
+	displayTrafficLight(HOR, timeTraffic);
 }

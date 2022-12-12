@@ -36,6 +36,7 @@ extern enum StateLight currentStateHOR;
 
 void turnOnLight(enum StateLight, enum flow);
 void turnOnPedes(void);
+void blinkyPedes(void);
 void clearPedes(void);
 void blinkyLight(enum StateLight);
 void clearTrafficLight(void);

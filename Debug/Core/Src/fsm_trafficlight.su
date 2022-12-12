@@ -1,8 +1,9 @@
-../Core/Src/fsm_trafficlight.c:46:6:clearLight	24	static
-../Core/Src/fsm_trafficlight.c:61:6:clearTrafficLight	8	static
-../Core/Src/fsm_trafficlight.c:66:6:clearPedes	8	static
-../Core/Src/fsm_trafficlight.c:72:6:turnOnPedes	8	static
-../Core/Src/fsm_trafficlight.c:78:6:turnOnLight	16	static
-../Core/Src/fsm_trafficlight.c:123:6:blinkyLight	16	static
-../Core/Src/fsm_trafficlight.c:138:6:displayTrafficLight	16	static
-../Core/Src/fsm_trafficlight.c:206:6:displayTraffic	16	static
+../Core/Src/fsm_trafficlight.c:45:6:clearLight	24	static
+../Core/Src/fsm_trafficlight.c:60:6:clearTrafficLight	8	static
+../Core/Src/fsm_trafficlight.c:65:6:clearPedes	8	static
+../Core/Src/fsm_trafficlight.c:71:6:turnOnPedes	8	static
+../Core/Src/fsm_trafficlight.c:77:6:blinkyPedes	8	static
+../Core/Src/fsm_trafficlight.c:91:6:turnOnLight	16	static
+../Core/Src/fsm_trafficlight.c:136:6:blinkyLight	16	static
+../Core/Src/fsm_trafficlight.c:151:6:displayTrafficLight	16	static
+../Core/Src/fsm_trafficlight.c:219:6:displayTraffic	16	static

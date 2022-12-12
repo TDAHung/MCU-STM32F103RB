@@ -175,9 +175,21 @@ void fsm_button_displayTraffic(void){
 		}
 		break;
 	case PEDES:
-		turnOnPedes();
-		turnOnLight(GREEN,VER);
-		turnOnLight(GREEN,HOR);
+		setTimer(BLINK,10);
+		blinkyPedes();
+		if(timer_flag[BLINK]){
+			if(flag == 0){
+				blinkyLight(RED);
+				flag = 1;
+			}else if(flag == 1){
+				blinkyLight(YELLOW);
+				flag = 2;
+			}else {
+				blinkyLight(GREEN);
+				flag = 0;
+			}
+			setTimer(BLINK,30);
+		}
 		if (isButtonPressed(PEDES_BTN)){
 			clearPedes();
 			statusBTN= INITBTN;

@@ -131,7 +131,7 @@ void blinkyLight(enum StateLight currentState){
 			turnOnLight(currentState,HOR);
 			blink = 1;
 		}
-		setTimer(BLINK,500);
+		setTimer(BLINK,200);
 	}
 }
 

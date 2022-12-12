@@ -12,7 +12,7 @@
 
 #define CYCLE 10
 
-#define NUMS_OF_TIMER 6
+#define NUMS_OF_TIMER 3
 
 extern int timer_flag[NUMS_OF_TIMER];
 

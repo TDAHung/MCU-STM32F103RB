@@ -10,7 +10,7 @@
 
 #define NUMS_OF_BUTTON 	4
 
-#define BUTTON_HOLD 	3000
+#define BUTTON_HOLD 	1000
 #define PRESSED 		GPIO_PIN_RESET
 #define NORMAL			GPIO_PIN_SET
 
